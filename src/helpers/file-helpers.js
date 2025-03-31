@@ -1,50 +1,56 @@
 import fs from 'fs/promises';
 import path from 'path';
 import matter from 'gray-matter';
+import {cache} from 'react';
 
-export async function getBlogPostList() {
-  const fileNames = await readDirectory('/content');
-
-  const blogPosts = [];
-
-  for (let fileName of fileNames) {
-    const rawContent = await readFile(
-      `/content/${fileName}`
-    );
-
-    const { data: frontmatter } = matter(rawContent);
-
-    blogPosts.push({
-      slug: fileName.replace('.mdx', ''),
-      ...frontmatter,
-    });
-  }
-
-  return blogPosts.sort((p1, p2) =>
-    p1.publishedOn < p2.publishedOn ? 1 : -1
-  );
+export async function getBlogPostList () {
+	const blogPosts = [];
+	const folderPath = path.join(process.cwd(), '/content/');
+	const files = await fs.readdir(folderPath);
+	const fileContents = await Promise.all(
+		files.map(async file => {
+			const filePath = path.join(folderPath, file);
+			const rawContent = await fs.readFile(filePath, 'utf8');
+			const {data: frontmatter} = matter(rawContent);
+			
+			return {
+				slug: file.replace('.mdx', ''),
+				...frontmatter,
+			};
+		})
+	);
+	
+	blogPosts.push(...fileContents);
+	
+	return blogPosts.sort((p1, p2) =>
+		p1.publishedOn < p2.publishedOn ? 1 : -1
+	);
 }
+
+const loadFile = cache(async (slug) => {
+	const rawContent = await readFile(
+		`./content/${slug}.mdx`,
+		'utf-8' // Ensure correct encoding
+	);
+	
+	const { data: frontmatter, content } = matter(rawContent);
+	
+	return { frontmatter, content };
+});
 
 export async function loadBlogPost(slug) {
-  const rawContent = await readFile(
-    `/content/${slug}.mdx`
-  );
-
-  const { data: frontmatter, content } =
-    matter(rawContent);
-
-  return { frontmatter, content };
+	return loadFile(slug); // Call the cached function
 }
 
-function readFile(localPath) {
-  return fs.readFile(
-    path.join(process.cwd(), localPath),
-    'utf8'
-  );
+function readFile (localPath) {
+	return fs.readFile(
+		path.join(process.cwd(), localPath),
+		'utf8'
+	);
 }
 
-function readDirectory(localPath) {
-  return fs.readdir(
-    path.join(process.cwd(), localPath)
-  );
+function readDirectory (localPath) {
+	return fs.readdir(
+		path.join(process.cwd(), localPath)
+	);
 }
