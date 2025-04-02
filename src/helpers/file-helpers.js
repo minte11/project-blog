@@ -1,7 +1,7 @@
 import fs from 'fs/promises';
 import path from 'path';
 import matter from 'gray-matter';
-import {cache} from 'react';
+import React from "react";
 
 export async function getBlogPostList () {
 	const blogPosts = [];
@@ -27,20 +27,17 @@ export async function getBlogPostList () {
 	);
 }
 
-const loadFile = cache(async (slug) => {
-	const rawContent = await readFile(
-		`./content/${slug}.mdx`,
-		'utf-8' // Ensure correct encoding
-	);
-	
-	const { data: frontmatter, content } = matter(rawContent);
-	
-	return { frontmatter, content };
-});
-
-export async function loadBlogPost(slug) {
-	return loadFile(slug); // Call the cached function
-}
+export const loadBlogPost = React.cache(
+	async function loadBlogPost (slug) {
+		const rawContent = await readFile(
+			`/content/${slug}.mdx`
+		);
+		const {data: frontmatter, content} =
+			matter(rawContent);
+		
+		return {frontmatter, content};
+	}
+);
 
 function readFile (localPath) {
 	return fs.readFile(
