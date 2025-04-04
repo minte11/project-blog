@@ -55,7 +55,7 @@ function DivisionGroupsDemo ({numOfItems = 12, initialNumOfGroups = 1, includeRe
 									layoutId={layoutId}
 									key={layoutId}
 									className={styles.item}
-								/>
+								>{dotId}</motion.div>
 							);
 						})}
 					</div>))}
@@ -70,7 +70,7 @@ function DivisionGroupsDemo ({numOfItems = 12, initialNumOfGroups = 1, includeRe
 				{range(remainder).map((index) => {
 					const dotId = index + (numOfItemsPerGroup * numOfGroups);
 					const layoutId = `${id}-${dotId}`;
-					return (<motion.div key={layoutId} layoutId={layoutId} className={styles.item}/>);
+					return (<motion.div key={layoutId} layoutId={layoutId} className={styles.item}>{dotId}</motion.div>);
 				})}
 			</div>)}
 			

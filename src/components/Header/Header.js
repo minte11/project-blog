@@ -7,6 +7,7 @@ import Logo from '@/components/Logo';
 import VisuallyHidden from '@/components/VisuallyHidden';
 import {ThemeContext} from "@/components/ThemeProvider";
 import styles from './Header.module.css';
+import Link from 'next/link';
 
 function Header ({className, ...delegated}) {
 	const {theme, toggleTheme} = React.useContext(ThemeContext);
@@ -19,7 +20,7 @@ function Header ({className, ...delegated}) {
 			<Logo/>
 			
 			<div className={styles.actions}>
-				<button className={styles.action}>
+					<Link href={"/rss.xml"} className={styles.action}>
 					<Rss
 						size="1.5rem"
 						style={{
@@ -30,7 +31,7 @@ function Header ({className, ...delegated}) {
 					<VisuallyHidden>
 						View RSS feed
 					</VisuallyHidden>
-				</button>
+					</Link>
 				<button onClick={toggleTheme} className={styles.action}>
 					{theme === 'dark' ? <Sun size="1.5rem"/> : <Moon size="1.5rem"/>}
 					<VisuallyHidden>
