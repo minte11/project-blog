@@ -29,6 +29,7 @@ export async function getBlogPostList () {
 
 export const loadBlogPost = React.cache(
 	async function loadBlogPost (slug) {
+		try {
 		const rawContent = await readFile(
 			`/content/${slug}.mdx`
 		);
@@ -36,6 +37,9 @@ export const loadBlogPost = React.cache(
 			matter(rawContent);
 		
 		return {frontmatter, content};
+		} catch (e) {
+			return null;
+		}
 	}
 );
 

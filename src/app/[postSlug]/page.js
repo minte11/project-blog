@@ -3,13 +3,20 @@ import React from 'react';
 import BlogHero from '@/components/BlogHero';
 
 import styles from './postSlug.module.css';
+import {notFound} from 'next/navigation'
 import {loadBlogPost} from "@/helpers/file-helpers";
 import {MDXRemote} from "next-mdx-remote/rsc";
 import COMPONENTS_MAPPING from "@/helpers/mdx-components-mapping";
 
 export async function generateMetadata ({params}) {
 	const {postSlug} = await params;
-	const {frontmatter} = await loadBlogPost(postSlug);
+	const blogPost = await loadBlogPost(postSlug);
+	
+	if (!blogPost) {
+		notFound();
+	}
+	
+	const {frontmatter} = blogPost
 	const {title, abstract} = frontmatter;
 	return {
 		title,
@@ -21,7 +28,11 @@ export async function generateMetadata ({params}) {
 
 async function BlogPost ({params}) {
 	const {postSlug} = await params;
-	const {frontmatter, content} = await loadBlogPost(postSlug);
+	const blogPost = await loadBlogPost(postSlug);
+	if(!blogPost) {
+		notFound();
+	}
+	const {frontmatter, content} = blogPost;
 	const {title, publishedOn} = frontmatter;
 	return (
 		<article className={styles.wrapper}>
