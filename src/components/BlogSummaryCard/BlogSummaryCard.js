@@ -15,7 +15,7 @@ function BlogSummaryCard({
   const href = `/${slug}`;
   const humanizedDate = format(
     new Date(publishedOn),
-    'MMMM do, yyyy'
+    'MMMM do, yyyy',
   );
 
   return (

@@ -2,6 +2,8 @@ import React from 'react';
 import { format } from 'date-fns';
 import clsx from 'clsx';
 
+
+
 import styles from './BlogHero.module.css';
 
 function BlogHero({
@@ -12,7 +14,7 @@ function BlogHero({
 }) {
   const humanizedDate = format(
     new Date(publishedOn),
-    'MMMM do, yyyy'
+    'MMMM do, yyyy',
   );
 
   return (
