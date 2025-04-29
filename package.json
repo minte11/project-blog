@@ -2,7 +2,6 @@
   "name": "project-blog",
   "version": "0.1.0",
   "private": true,
-  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -14,6 +13,8 @@
     "bright": "0.8.4",
     "clsx": "1.2.1",
     "date-fns": "2.30.0",
+    "eslint": "8.43.0",
+    "eslint-config-next": "13.4.6",
     "framer-motion": "10.14",
     "gray-matter": "4.0.3",
     "js-cookie": "3.0.5",
@@ -24,19 +25,5 @@
     "react-dom": "18.3.0",
     "react-feather": "2.0.10",
     "rss": "1.2.2"
-  },
-  "devDependencies": {
-    "@eslint/js": "^9.25.1",
-    "@next/eslint-plugin-next": "^15.3.1",
-    "eslint": "^9.25.1",
-    "eslint-config-next": "^15.3.1",
-    "eslint-plugin-import": "^2.31.0",
-    "eslint-plugin-jest-dom": "^5.5.0",
-    "eslint-plugin-perfectionist": "^4.12.3",
-    "eslint-plugin-react": "^7.37.5",
-    "eslint-plugin-react-hooks": "^5.2.0",
-    "eslint-plugin-sonarjs": "^3.0.2",
-    "eslint-plugin-testing-library": "^7.1.1",
-    "eslint-plugin-unicorn": "^59.0.0"
   }
 }
